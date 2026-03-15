@@ -1,16 +1,24 @@
-import { getSessions } from "./actions/getSessions";
-import { ClientComponent } from "./components/ClientComponent";
+'use client';
 
-export default async function Home() {
-  const sessions = await getSessions();
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { isAuthenticated } from '@/lib/auth';
+import styles from './page.module.css';
+
+export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      router.push('/dashboard');
+    } else {
+      router.push('/login');
+    }
+  }, []);
+
   return (
-    <div>
-      <div>
-        <ClientComponent session={sessions} telNumber={'5493413646222'} />
-      </div>
-      <div>
-        <ClientComponent session={sessions} telNumber={'5491151136431'}/>
-      </div>
+    <div className={styles.loadingScreen}>
+      <div className={styles.spinner} role="status" aria-label="Cargando" />
     </div>
   );
 }

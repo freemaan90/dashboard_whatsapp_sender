@@ -1,0 +1,93 @@
+/**
+ * Card Styles
+ *
+ * Estilos para el componente Card usando CSS Modules y variables de tema.
+ * Variantes de elevación: flat, elevated
+ * Sub-componentes: Card.Header, Card.Body, Card.Footer
+ *
+ * Requisitos: 3.3, 19.3
+ */
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+
+.card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--duration-fast) var(--easing-in-out);
+}
+
+/* ─── Variantes de elevación ────────────────────────────────────────────── */
+
+.card--flat {
+  box-shadow: var(--shadow-none);
+}
+
+.card--elevated {
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Estado hover para tarjeta elevada (Req 19.3) ─────────────────────── */
+
+.card--elevated:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ─── Tarjeta interactiva hover ─────────────────────────────────────────── */
+
+.card--interactive:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ─── Tarjeta interactiva (con onClick) ─────────────────────────────────── */
+
+.card--interactive {
+  cursor: pointer;
+}
+
+.card--interactive:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.card--interactive:active {
+  transform: scale(0.995);
+}
+
+/* ─── Sub-componentes ───────────────────────────────────────────────────── */
+
+.header {
+  padding: var(--spacing-4) var(--spacing-6);
+  border-bottom: 1px solid var(--color-border-default);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.body {
+  padding: var(--spacing-4) var(--spacing-6);
+  flex: 1;
+}
+
+.footer {
+  padding: var(--spacing-4) var(--spacing-6);
+  border-top: 1px solid var(--color-border-default);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* ─── Accesibilidad: respetar preferencia de movimiento reducido ─────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card--interactive:active {
+    transform: none;
+  }
+}

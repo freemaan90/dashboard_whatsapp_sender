@@ -1,0 +1,88 @@
+/**
+ * Avatar Styles
+ *
+ * Estilos para el componente Avatar usando CSS Modules y variables de tema.
+ * Soporta imágenes con fallback a iniciales.
+ * Tamaños: xs (24px), sm (32px), md (40px), lg (48px), xl (64px)
+ *
+ * Requisitos: 3.5, 10.4
+ */
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-primary-subtle, var(--color-bg-subtle));
+  color: var(--color-brand-primary, var(--color-text-secondary));
+  overflow: hidden;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* ─── Image ─────────────────────────────────────────────────────────────── */
+
+.avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── Initials ──────────────────────────────────────────────────────────── */
+
+.avatar__initials {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  color: inherit;
+}
+
+/* ─── Tamaños ───────────────────────────────────────────────────────────── */
+
+.avatar--xs {
+  width: 24px;
+  height: 24px;
+}
+
+.avatar--xs .avatar__initials {
+  font-size: 10px;
+}
+
+.avatar--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.avatar--sm .avatar__initials {
+  font-size: var(--font-size-xs, 12px);
+}
+
+.avatar--md {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar--md .avatar__initials {
+  font-size: var(--font-size-small, 14px);
+}
+
+.avatar--lg {
+  width: 48px;
+  height: 48px;
+}
+
+.avatar--lg .avatar__initials {
+  font-size: var(--font-size-body, 16px);
+}
+
+.avatar--xl {
+  width: 64px;
+  height: 64px;
+}
+
+.avatar--xl .avatar__initials {
+  font-size: var(--font-size-h4, 18px);
+}

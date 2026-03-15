@@ -1,0 +1,117 @@
+/**
+ * StatsCards Component Styles
+ * Requisitos: 6.1, 6.6, 13.2, 13.4, 13.5
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+  transition: box-shadow var(--duration-fast) var(--easing-in-out),
+              transform var(--duration-fast) var(--easing-in-out);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.cardInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.value {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: var(--spacing-2) 0 0;
+}
+
+.valueSuccess {
+  color: var(--color-success-text);
+}
+
+.iconWrapper {
+  border-radius: var(--radius-full);
+  padding: var(--spacing-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconWrapperBlue {
+  background-color: var(--color-brand-primary-muted);
+}
+
+.iconWrapperGreen {
+  background-color: var(--color-success-bg);
+}
+
+.iconWrapperPurple {
+  background-color: #f3e8ff;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.iconBlue {
+  color: var(--color-brand-primary);
+}
+
+.iconGreen {
+  color: var(--color-success-icon);
+}
+
+.iconPurple {
+  color: #9333ea;
+}
+
+/* Trend indicator */
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--spacing-2);
+}
+
+.trendUp {
+  color: var(--color-success-text);
+}
+
+.trendDown {
+  color: var(--color-error-text);
+}
+
+.trendIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}

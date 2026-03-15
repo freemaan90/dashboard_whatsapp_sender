@@ -1,0 +1,94 @@
+/**
+ * WhatsAppSidebar — CSS Module
+ * Migrado desde Tailwind CSS. Requisitos: 13.2, 13.4, 13.5
+ */
+
+.sidebar {
+  width: 16rem;
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-4);
+}
+
+/* ── Header ── */
+.header {
+  margin-bottom: var(--spacing-6);
+}
+
+.heading {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.whatsappIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-success-icon);
+}
+
+/* ── Navigation ── */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.navItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding-inline: var(--spacing-4);
+  padding-block: var(--spacing-3);
+  border-radius: var(--radius-md);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--duration-fast) var(--easing-in-out),
+              color var(--duration-fast) var(--easing-in-out);
+  text-align: left;
+}
+
+.navItem--active {
+  background-color: var(--color-nav-bg-active);
+  color: var(--color-nav-text-active);
+}
+
+.navItem--inactive {
+  color: var(--color-nav-text);
+}
+
+.navItem--inactive:hover {
+  background-color: var(--color-nav-bg-hover);
+  color: var(--color-nav-text-hover);
+}
+
+.navItem--inactive:active {
+  background-color: var(--color-bg-muted);
+  color: var(--color-nav-text-active);
+}
+
+.navItem--active:active {
+  background-color: var(--color-primary-100, #dbeafe);
+}
+
+.navIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* ─── Accesibilidad: respetar preferencia de movimiento reducido ─────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .navItem {
+    transition: none;
+  }
+}

@@ -1,0 +1,180 @@
+/**
+ * Dashboard Page Styles
+ * Requisitos: 6.1, 6.6, 13.2, 13.4, 13.5, 8.3, 8.4, 19.7
+ */
+
+/* ─── Animaciones de entrada ────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loadingScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-base);
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 2px solid transparent;
+  border-bottom-color: var(--color-brand-primary);
+  border-radius: var(--radius-full);
+  animation: spin var(--duration-slow) linear infinite;
+  margin: 0 auto;
+}
+
+.loadingText {
+  margin-top: var(--spacing-4);
+  color: var(--color-text-tertiary);
+}
+
+/* Skeleton session card */
+.skeletonSessionCard {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4) var(--spacing-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.skeletonSessionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.skeletonSessionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Stats skeleton */
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+  animation: fadeIn var(--duration-normal) var(--easing-out) both;
+}
+
+@media (min-width: 768px) {
+  .skeletonGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.skeletonCard {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* Main layout */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+  animation: fadeIn var(--duration-normal) var(--easing-out) both;
+  animation-delay: 100ms;
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+@media (min-width: 1024px) {
+  .mainColumn {
+    grid-column: span 2;
+  }
+}
+
+.sideColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+/* Sessions section */
+.sessionsTitle {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4);
+}
+
+.sessionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.emptyState {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-8);
+  text-align: center;
+}
+
+.emptyStateText {
+  color: var(--color-text-tertiary);
+  margin: 0 0 var(--spacing-2);
+}
+
+.emptyStateSubtext {
+  font-size: var(--font-size-small);
+  color: var(--color-text-disabled);
+  margin: 0 0 var(--spacing-4);
+}
+
+.emptyStateCta {
+  margin-top: var(--spacing-2);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-bottom-color: var(--color-brand-primary);
+    opacity: 0.7;
+  }
+
+  .mainGrid,
+  .skeletonGrid {
+    animation: none;
+  }
+}

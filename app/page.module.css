@@ -1,0 +1,35 @@
+/**
+ * Root page loading styles
+ * Requisitos: 13.2, 13.4, 13.5
+ */
+
+.loadingScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-base);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  border-bottom-color: var(--color-success-500);
+  animation: spin var(--duration-slow) linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-bottom-color: var(--color-success-500);
+    opacity: 0.6;
+  }
+}

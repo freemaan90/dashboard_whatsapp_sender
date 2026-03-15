@@ -1,0 +1,20 @@
+/**
+ * WhatsApp Dashboard Page Styles
+ * Requisitos: 13.2, 13.4, 13.5
+ */
+
+.layout {
+  display: flex;
+  gap: var(--spacing-6);
+  height: calc(100vh - 12rem);
+  min-height: 0;
+}
+
+.contentPanel {
+  flex: 1;
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow-y: auto;
+  min-height: 0;
+}

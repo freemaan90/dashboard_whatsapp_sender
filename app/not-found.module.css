@@ -1,0 +1,166 @@
+/**
+ * Not Found (404) Page — CSS Module
+ *
+ * Estilos para la página 404 personalizada.
+ * Usa tokens de diseño del sistema para consistencia visual.
+ *
+ * Requisitos: 16.8
+ */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-base);
+  padding: var(--spacing-6);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 32rem;
+  width: 100%;
+}
+
+/* ── Código de error grande ── */
+.code {
+  font-size: 8rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  color: var(--color-brand-primary);
+  opacity: 0.15;
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0 0 var(--spacing-4);
+  font-family: var(--font-family-sans);
+  user-select: none;
+}
+
+/* ── Icono ── */
+.iconWrapper {
+  color: var(--color-brand-primary);
+  margin-bottom: var(--spacing-6);
+  opacity: 0.8;
+}
+
+/* ── Título ── */
+.title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-3);
+  line-height: var(--line-height-tight);
+}
+
+/* ── Descripción ── */
+.description {
+  font-size: var(--font-size-body);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--spacing-8);
+  max-width: 28rem;
+}
+
+/* ── Acciones ── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 20rem;
+}
+
+/* Botón primario — ir al dashboard */
+.primaryLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  border: 1px solid var(--color-btn-primary-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out),
+    box-shadow var(--duration-fast) var(--easing-in-out);
+}
+
+.primaryLink:hover {
+  background-color: var(--color-btn-primary-bg-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.primaryLink:active {
+  background-color: var(--color-btn-primary-bg-active);
+  transform: scale(0.98);
+}
+
+.primaryLink:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Botón secundario — página de inicio */
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-btn-secondary-bg);
+  color: var(--color-btn-secondary-text);
+  border: 1px solid var(--color-btn-secondary-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out);
+}
+
+.secondaryLink:hover {
+  background-color: var(--color-btn-secondary-bg-hover);
+}
+
+.secondaryLink:active {
+  background-color: var(--color-btn-secondary-bg-active);
+  transform: scale(0.98);
+}
+
+.secondaryLink:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ── Responsivo ── */
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+  }
+
+  .primaryLink,
+  .secondaryLink {
+    width: auto;
+  }
+
+  .code {
+    font-size: 10rem;
+    opacity: 0.12;
+  }
+}
+
+/* ── Movimiento reducido ── */
+@media (prefers-reduced-motion: reduce) {
+  .primaryLink,
+  .secondaryLink {
+    transition: none;
+  }
+}

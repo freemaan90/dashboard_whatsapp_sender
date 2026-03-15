@@ -1,50 +1,38 @@
 'use server';
 
+import { cookies } from 'next/headers';
+
 const API_URL = process.env.BACKEND_URL; // ej: http://localhost:3001
 
 export async function createWhatsappSession(sessionId: string) {
-  // 1. Crear sesión en el microservicio
+  const cookieStore = await cookies();
+  const token = cookieStore.get('whatsapp_token')?.value;
+
+  if (!token) {
+    throw new Error('No autorizado');
+  }
+
+  // Crear sesión en el microservicio
   const createRes = await fetch(`${API_URL}/whatsapp-sender/session`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
     body: JSON.stringify({ sessionId }),
     cache: 'no-store',
   });
 
   if (!createRes.ok) {
-    throw new Error('No se pudo crear la sesión de WhatsApp');
+    const error = await createRes.json().catch(() => ({}));
+    throw new Error(error.message || 'No se pudo crear la sesión de WhatsApp');
   }
 
-  // 2. Esperar activamente hasta que el QR esté disponible
-  const qr = await waitForQR(sessionId);
-
-  // 3. Devolver QR al frontend
+  const data = await createRes.json();
+  
   return {
     sessionId,
-    qrBase64: qr,
+    success: true,
+    data,
   };
-}
-
-async function waitForQR(sessionId: string): Promise<string> {
-  const MAX_ATTEMPTS = 40; // ~20 segundos
-  const DELAY = 500;
-
-  for (let i = 0; i < MAX_ATTEMPTS; i++) {
-    const statusRes = await fetch(
-      `${API_URL}/whatsapp-sender/status/${sessionId}`,
-      { cache: 'no-store' },
-    );
-
-    if (statusRes.ok) {
-      const data = await statusRes.json();
-
-      if (data.qrBase64) {
-        return data.qrBase64;
-      }
-    }
-
-    await new Promise((r) => setTimeout(r, DELAY));
-  }
-
-  throw new Error('El QR no estuvo disponible a tiempo');
 }

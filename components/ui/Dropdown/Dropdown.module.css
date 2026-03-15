@@ -1,0 +1,167 @@
+/**
+ * Dropdown Styles
+ *
+ * Estilos para el componente Dropdown usando CSS Modules y variables de tema.
+ * Incluye posicionamiento dinámico, animación de apertura y estados de ítem.
+ *
+ * Requisitos: 3.8, 10.1, 10.5
+ */
+
+/* ─── Animaciones ───────────────────────────────────────────────────────── */
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Contenedor ────────────────────────────────────────────────────────── */
+
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+/* ─── Trigger ───────────────────────────────────────────────────────────── */
+
+.trigger {
+  /* Sin estilos propios: el trigger hereda el aspecto del children */
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+/* ─── Menú ──────────────────────────────────────────────────────────────── */
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--spacing-1, 4px));
+  z-index: 200;
+  min-width: 180px;
+  padding: var(--spacing-1, 4px) 0;
+  margin: 0;
+  list-style: none;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  outline: none;
+  animation: menuFadeIn var(--duration-fast) var(--easing-out) both;
+}
+
+/* Posicionamiento */
+
+.menu--bottom-start {
+  left: 0;
+}
+
+.menu--bottom-end {
+  right: 0;
+}
+
+/* ─── Ítems ─────────────────────────────────────────────────────────────── */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  width: 100%;
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  background: none;
+  border: none;
+  border-radius: 0;
+  font-size: var(--font-size-body, 14px);
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-out),
+    color var(--duration-fast) var(--easing-out),
+    transform var(--duration-fast) var(--easing-out);
+}
+
+.item:hover,
+.item:focus {
+  background-color: var(--color-brand-primary-subtle, var(--color-bg-subtle));
+  color: var(--color-brand-primary);
+  outline: none;
+}
+
+.item:active:not(.item--disabled) {
+  transform: scale(0.98);
+  background-color: var(--color-brand-primary-subtle, var(--color-bg-subtle));
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: -2px;
+}
+
+/* Estado deshabilitado */
+
+.item--disabled {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.item--disabled:hover,
+.item--disabled:focus {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Icono del ítem ────────────────────────────────────────────────────── */
+
+.itemIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
+/* ─── Label del ítem ────────────────────────────────────────────────────── */
+
+.itemLabel {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Accesibilidad: movimiento reducido ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    animation: none;
+  }
+
+  .item {
+    transition: none;
+  }
+
+  .item:active:not(.item--disabled) {
+    transform: none;
+  }
+}

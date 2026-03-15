@@ -1,0 +1,208 @@
+/**
+ * Modal Styles
+ *
+ * Estilos para el componente Modal usando CSS Modules y variables de tema.
+ * Incluye animaciones fade-in para el backdrop y scale+fade-in para el contenido.
+ *
+ * Requisitos: 3.7, 8.3, 10.8, 10.9
+ */
+
+/* ─── Animaciones ───────────────────────────────────────────────────────── */
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backdropFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialogScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dialogScaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+}
+
+/* ─── Backdrop ──────────────────────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--spacing-4);
+  overflow-y: auto;
+  background-color: var(--color-bg-overlay);
+  animation: backdropFadeIn var(--duration-normal) var(--easing-out) both;
+}
+
+.backdrop > .dialog,
+.backdrop > [role="dialog"] {
+  margin: auto;
+}
+
+.backdrop--exiting {
+  animation: backdropFadeOut var(--duration-normal) var(--easing-in) both;
+}
+
+/* ─── Dialog ────────────────────────────────────────────────────────────── */
+
+.dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  outline: none;
+  animation: dialogScaleIn var(--duration-normal) var(--easing-out) both;
+  overflow: hidden;
+  margin: auto 0;
+}
+
+.dialog--exiting {
+  animation: dialogScaleOut var(--duration-normal) var(--easing-in) both;
+}
+
+/* ─── Tamaños ───────────────────────────────────────────────────────────── */
+
+.dialog--sm {
+  max-width: 400px;
+}
+
+.dialog--md {
+  max-width: 560px;
+}
+
+.dialog--lg {
+  max-width: 720px;
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-6);
+  border-bottom: 1px solid var(--color-border-default);
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-h4, 18px);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight, 1.25);
+}
+
+/* ─── Botón de cierre ───────────────────────────────────────────────────── */
+
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out),
+    color var(--duration-fast) var(--easing-in-out),
+    border-color var(--duration-fast) var(--easing-in-out);
+}
+
+.closeButton:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-default);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.closeButton:active {
+  background-color: var(--color-bg-muted);
+}
+
+/* ─── Body ──────────────────────────────────────────────────────────────── */
+
+.body {
+  padding: var(--spacing-6);
+  overflow-y: auto;
+  flex: 1;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Accesibilidad: movimiento reducido ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .backdrop--exiting,
+  .dialog,
+  .dialog--exiting {
+    animation: none;
+  }
+
+  .backdrop--exiting {
+    opacity: 0;
+  }
+}
+
+/* ─── Responsivo ────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .dialog,
+  .dialog--sm,
+  .dialog--md,
+  .dialog--lg {
+    max-width: 100%;
+    max-height: 90vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

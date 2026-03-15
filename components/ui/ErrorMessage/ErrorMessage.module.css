@@ -1,0 +1,128 @@
+/**
+ * ErrorMessage Styles
+ *
+ * Estilos para el componente ErrorMessage usando CSS Modules y variables de tema.
+ * Variantes: inline, banner, card
+ *
+ * Requisitos: 16.1, 16.4, 16.5
+ */
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+
+.errorMessage {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  color: var(--color-error-text);
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-md);
+}
+
+/* ─── Variantes ─────────────────────────────────────────────────────────── */
+
+.errorMessage--inline {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-small);
+}
+
+.errorMessage--banner {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-body);
+  border-radius: var(--radius-sm);
+}
+
+.errorMessage--card {
+  padding: var(--spacing-4) var(--spacing-6);
+  font-size: var(--font-size-body);
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Icono ─────────────────────────────────────────────────────────────── */
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-error-icon);
+  margin-top: 1px;
+}
+
+.errorMessage--card .icon {
+  width: 32px;
+  height: 32px;
+  margin-top: 0;
+  margin-bottom: var(--spacing-2);
+}
+
+/* ─── Contenido ─────────────────────────────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+/* ─── Mensaje ───────────────────────────────────────────────────────────── */
+
+.message {
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+}
+
+/* ─── Descripción ───────────────────────────────────────────────────────── */
+
+.description {
+  margin: 0;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-error-text);
+  opacity: 0.85;
+  line-height: var(--line-height-normal);
+  max-width: 60ch;
+}
+
+/* ─── Botón de reintento ────────────────────────────────────────────────── */
+
+.retryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: transparent;
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-md);
+  color: var(--color-error-text);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out),
+    color var(--duration-fast) var(--easing-in-out);
+}
+
+.retryButton:hover {
+  background-color: var(--color-error-border);
+  color: #ffffff;
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.retryButton:active {
+  transform: scale(0.98);
+}
+
+/* Accesibilidad: respetar preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .retryButton {
+    transition: none;
+  }
+}

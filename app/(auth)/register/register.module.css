@@ -1,0 +1,245 @@
+/**
+ * Register Page — CSS Module
+ * Migrado desde Tailwind CSS. Requisitos: 12.1, 12.2, 12.10, 13.2, 13.4, 13.5
+ */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-600) 0%,
+    var(--color-primary-400) 50%,
+    var(--color-primary-200) 100%
+  );
+  padding: var(--spacing-4);
+}
+
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at top left,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.card {
+  background-color: var(--color-bg-surface);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.logoWrapper {
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(
+    to bottom right,
+    var(--color-primary-500),
+    var(--color-primary-600)
+  );
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  margin-bottom: var(--spacing-4);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
+}
+
+.logoText {
+  color: #ffffff;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.subtitle {
+  color: var(--color-text-tertiary);
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.errorAlert {
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  color: var(--color-error-text);
+  padding-inline: var(--spacing-4);
+  padding-block: var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.input {
+  width: 100%;
+  padding-inline: var(--spacing-4);
+  padding-block: var(--spacing-3);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-input-bg);
+  color: var(--color-input-text);
+  font-size: var(--font-size-base);
+  transition: border-color var(--duration-fast) var(--ease-in-out),
+              box-shadow var(--duration-fast) var(--ease-in-out);
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+.input:hover {
+  border-color: var(--color-input-border-hover);
+}
+
+.input:focus {
+  outline: 2px solid var(--color-input-border-focus);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+/* ── Submit Button ── */
+.submitButton {
+  width: 100%;
+}
+
+/* ── Footer ── */
+.footer {
+  margin-top: var(--spacing-6);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+.link {
+  color: var(--color-brand-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-in-out);
+}
+
+.link:hover {
+  color: var(--color-brand-primary-hover);
+}
+
+.link:active {
+  color: var(--color-brand-primary-active);
+}
+
+/* ── Password toggle ── */
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWithToggle {
+  padding-right: 2.75rem;
+}
+
+.togglePassword {
+  position: absolute;
+  right: var(--spacing-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color var(--duration-fast) var(--ease-in-out);
+}
+
+.togglePassword:hover {
+  color: var(--color-text-primary);
+}
+
+/* ── Field-level validation ── */
+.fieldError {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-error-600);
+  margin-top: var(--spacing-1);
+}
+
+.inputError {
+  border-color: var(--color-error-600) !important;
+}
+
+.inputError:focus {
+  outline-color: var(--color-error-600);
+}
+
+/* ── Password strength indicator ── */
+.strengthBar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  margin-top: var(--spacing-1);
+}
+
+.strengthSegment {
+  height: 4px;
+  flex: 1;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-200);
+  transition: background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.strength_weak {
+  background-color: var(--color-error-500);
+}
+
+.strength_medium {
+  background-color: var(--color-warning-500);
+}
+
+.strength_strong {
+  background-color: var(--color-success-500);
+}
+
+.strengthLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  min-width: 3rem;
+  text-align: right;
+}

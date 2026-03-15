@@ -1,0 +1,183 @@
+/**
+ * Error Page (500) — CSS Module
+ *
+ * Estilos para la página de error del servidor.
+ * Usa tokens de diseño del sistema para consistencia visual.
+ *
+ * Requisitos: 16.9
+ */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-base);
+  padding: var(--spacing-6);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 32rem;
+  width: 100%;
+}
+
+/* ── Código de error grande ── */
+.code {
+  font-size: 8rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  color: var(--color-error-border);
+  opacity: 0.25;
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0 0 var(--spacing-4);
+  font-family: var(--font-family-sans);
+  user-select: none;
+}
+
+/* ── Icono ── */
+.iconWrapper {
+  color: var(--color-error-icon);
+  margin-bottom: var(--spacing-6);
+}
+
+/* ── Título ── */
+.title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-3);
+  line-height: var(--line-height-tight);
+}
+
+/* ── Descripción ── */
+.description {
+  font-size: var(--font-size-body);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--spacing-4);
+  max-width: 28rem;
+}
+
+/* ── Código técnico (solo desarrollo) ── */
+.digest {
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2) var(--spacing-4);
+  margin: 0 0 var(--spacing-6);
+}
+
+.digest code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-error-text);
+}
+
+/* ── Acciones ── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 20rem;
+  margin-top: var(--spacing-4);
+}
+
+/* Botón de reintento — acción primaria */
+.retryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  border: 1px solid var(--color-btn-primary-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out),
+    box-shadow var(--duration-fast) var(--easing-in-out);
+}
+
+.retryButton:hover {
+  background-color: var(--color-btn-primary-bg-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.retryButton:active {
+  background-color: var(--color-btn-primary-bg-active);
+  transform: scale(0.98);
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Enlace al dashboard — acción secundaria */
+.dashboardLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-btn-secondary-bg);
+  color: var(--color-btn-secondary-text);
+  border: 1px solid var(--color-btn-secondary-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out);
+}
+
+.dashboardLink:hover {
+  background-color: var(--color-btn-secondary-bg-hover);
+}
+
+.dashboardLink:active {
+  background-color: var(--color-btn-secondary-bg-active);
+  transform: scale(0.98);
+}
+
+.dashboardLink:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ── Responsivo ── */
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+  }
+
+  .retryButton,
+  .dashboardLink {
+    width: auto;
+  }
+
+  .code {
+    font-size: 10rem;
+    opacity: 0.2;
+  }
+}
+
+/* ── Movimiento reducido ── */
+@media (prefers-reduced-motion: reduce) {
+  .retryButton,
+  .dashboardLink {
+    transition: none;
+  }
+}

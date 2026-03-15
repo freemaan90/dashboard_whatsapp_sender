@@ -1,0 +1,103 @@
+/* QRCodeModal styles */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-4) 0;
+  min-height: 200px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* ── Loading state ─────────────────────────────────────────── */
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  text-align: center;
+  width: 100%;
+}
+
+.loadingText {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.loadingHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* ── QR state ──────────────────────────────────────────────── */
+
+.qrState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  text-align: center;
+  width: 100%;
+}
+
+.qrWrapper {
+  padding: var(--spacing-4);
+  background-color: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-default);
+  display: inline-flex;
+}
+
+.qrImage {
+  display: block;
+  width: 200px;
+  height: 200px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.qrCaption {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.qrHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* ── Error state ───────────────────────────────────────────── */
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  text-align: center;
+  width: 100%;
+}
+
+.errorIcon {
+  color: var(--color-error-500);
+}
+
+.errorText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  margin: 0;
+  max-width: 280px;
+}
+
+/* ── Shared ────────────────────────────────────────────────── */
+
+.cancelButton {
+  margin-top: var(--spacing-2);
+}

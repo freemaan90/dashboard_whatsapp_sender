@@ -1,0 +1,71 @@
+/**
+ * GlobalLoader Styles
+ *
+ * Barra de progreso global fija en la parte superior del viewport.
+ * Se muestra durante transiciones de página (navegación).
+ *
+ * Requisitos: 11.9
+ */
+
+/* ─── Barra de progreso ─────────────────────────────────────────────────── */
+
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  pointer-events: none;
+  background-color: var(--color-brand-primary, #2563eb);
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0;
+  transition:
+    transform var(--duration-normal, 300ms) var(--easing-out, cubic-bezier(0, 0, 0.2, 1)),
+    opacity var(--duration-fast, 150ms) var(--easing-in-out, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+/* Estado: cargando — la barra avanza hasta ~85% */
+.bar.loading {
+  opacity: 1;
+  transform: scaleX(0.85);
+  transition:
+    transform 1200ms var(--easing-out, cubic-bezier(0, 0, 0.2, 1)),
+    opacity var(--duration-fast, 150ms) var(--easing-in-out, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+/* Estado: completado — la barra llega al 100% y luego desaparece */
+.bar.complete {
+  opacity: 1;
+  transform: scaleX(1);
+  transition:
+    transform var(--duration-fast, 150ms) var(--easing-out, cubic-bezier(0, 0, 0.2, 1)),
+    opacity var(--duration-normal, 300ms) var(--easing-in-out, cubic-bezier(0.4, 0, 0.2, 1)) var(--duration-fast, 150ms);
+}
+
+/* Brillo en el extremo derecho para efecto de profundidad */
+.bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.4)
+  );
+  border-radius: inherit;
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .bar.loading,
+  .bar.complete {
+    transition: none;
+  }
+}

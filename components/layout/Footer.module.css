@@ -1,0 +1,74 @@
+/**
+ * Footer Component Styles
+ * Requisitos: 13.2, 13.4, 13.5
+ */
+
+.footer {
+  background-color: var(--color-bg-surface);
+  border-top: 1px solid var(--color-border-default);
+  margin-top: auto;
+}
+
+.inner {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--spacing-4);
+  padding-block: var(--spacing-6);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+@media (min-width: 768px) {
+  .row {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.copyright {
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+}
+
+.links {
+  display: flex;
+  gap: var(--spacing-6);
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--easing-in-out);
+}
+
+.link:hover {
+  color: var(--color-brand-primary);
+}
+
+.social {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.socialLink {
+  color: var(--color-text-disabled);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--easing-in-out);
+}
+
+.socialLink:hover {
+  color: var(--color-text-secondary);
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}

@@ -1,0 +1,147 @@
+/**
+ * SessionPanel — CSS Module
+ * Migrado desde Tailwind CSS. Requisitos: 7.1, 7.3, 13.2, 13.4, 13.5
+ */
+
+.panel {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.description {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-4);
+  line-height: var(--line-height-normal);
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.submitButton {
+  width: 100%;
+}
+
+/* ── Divider section ── */
+.section {
+  margin-top: var(--spacing-6);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--color-border-default);
+}
+
+/* ── Spinner / loading ── */
+.spinnerSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--spacing-6);
+}
+
+.spinnerLabel {
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-medium);
+}
+
+.spinnerHint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--spacing-1);
+}
+
+.cancelLink {
+  margin-top: var(--spacing-4);
+  color: var(--color-error-text) !important;
+}
+
+.cancelLink:hover {
+  color: var(--color-error-700, #b91c1c) !important;
+}
+
+.cancelLink:active {
+  opacity: 0.7;
+}
+
+/* ── QR code ── */
+.qrHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-3);
+}
+
+.qrTitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.qrWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.qrBox {
+  background-color: var(--color-bg-subtle);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 18rem;
+}
+
+.qrImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.qrCaption {
+  text-align: center;
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+  margin-top: var(--spacing-3);
+}
+
+/* ── Instructions ── */
+.instructionsTitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-3);
+}
+
+.instructionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.instructionItem {
+  display: flex;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+}
+
+.instructionNumber {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-brand-primary);
+  flex-shrink: 0;
+}

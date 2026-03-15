@@ -1,0 +1,202 @@
+/**
+ * UserPanel Component Styles
+ * Requisitos: 6.1, 13.2, 13.4, 13.5
+ */
+
+.container {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4);
+}
+
+/* Avatar section */
+.avatarRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarInitial {
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+}
+
+.userName {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-1);
+}
+
+.userEmail {
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* Info rows */
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.infoRowLast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-2) 0;
+}
+
+.infoLabel {
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+}
+
+.infoValue {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+/* Status badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-success-icon);
+  border-radius: var(--radius-full);
+}
+
+/* Edit button */
+.footer {
+  margin-top: var(--spacing-6);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--color-border-default);
+}
+
+.editButton {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-4);
+  background-color: var(--color-brand-primary-subtle);
+  color: var(--color-brand-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-in-out);
+}
+
+.editButton:hover {
+  background-color: var(--color-brand-primary-muted);
+}
+
+.editButton:active {
+  background-color: var(--color-primary-200, #bfdbfe);
+  transform: scale(0.98);
+}
+
+.editButton:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Skeleton loading */
+.skeletonAvatarRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonAvatar {
+  width: 64px;
+  height: 64px;
+  background-color: var(--color-bg-muted);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.skeletonContent {
+  flex: 1;
+}
+
+.skeletonLine {
+  height: 20px;
+  background-color: var(--color-bg-muted);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-2);
+  width: 128px;
+}
+
+.skeletonLineWide {
+  height: 16px;
+  background-color: var(--color-bg-muted);
+  border-radius: var(--radius-sm);
+  width: 192px;
+}
+
+.errorText {
+  font-size: var(--font-size-small);
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonAvatarRow {
+    animation: none;
+  }
+  .editButton {
+    transition: none;
+  }
+  .editButton:active {
+    transform: none;
+  }
+}

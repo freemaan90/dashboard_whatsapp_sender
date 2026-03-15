@@ -1,0 +1,66 @@
+/**
+ * ProgressBar Styles
+ *
+ * Barra de progreso con animación suave usando tokens de diseño.
+ * Respeta prefers-reduced-motion.
+ *
+ * Requisitos: 11.3
+ */
+
+/* ─── Wrapper ───────────────────────────────────────────────────────────── */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 4px);
+  width: 100%;
+}
+
+/* ─── Header (label + value) ────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.label {
+  font-size: var(--font-size-small, 0.875rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-secondary, #374151);
+  line-height: var(--line-height-normal, 1.5);
+}
+
+.value {
+  font-size: var(--font-size-small, 0.875rem);
+  color: var(--color-text-tertiary, #6b7280);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Track ─────────────────────────────────────────────────────────────── */
+
+.track {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-bg-muted, #e5e7eb);
+  border-radius: var(--radius-full, 9999px);
+  overflow: hidden;
+}
+
+/* ─── Fill ──────────────────────────────────────────────────────────────── */
+
+.fill {
+  height: 100%;
+  background-color: var(--color-brand-primary, #2563eb);
+  border-radius: var(--radius-full, 9999px);
+  transition: width var(--duration-normal, 300ms) var(--easing-out, cubic-bezier(0, 0, 0.2, 1));
+  min-width: 0;
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}

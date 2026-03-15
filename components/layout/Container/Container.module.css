@@ -1,0 +1,53 @@
+/**
+ * Container Component Styles
+ *
+ * Provides responsive max-width containers with horizontal padding.
+ * Breakpoints:
+ *   mobile:  < 640px
+ *   tablet:  640px – 1024px
+ *   desktop: > 1024px
+ *
+ * Requirements: 4.1, 4.6
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-4); /* 16px on mobile */
+}
+
+/* ─── Tablet (640px+) ───────────────────────────────────────────────────── */
+@media (min-width: 640px) {
+  .container {
+    padding-inline: var(--spacing-6); /* 24px */
+  }
+}
+
+/* ─── Desktop (1024px+) ─────────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: var(--spacing-8); /* 32px */
+  }
+}
+
+/* ─── Size Variants ─────────────────────────────────────────────────────── */
+.sm {
+  max-width: 640px;
+}
+
+.md {
+  max-width: 768px;
+}
+
+.lg {
+  max-width: 1024px;
+}
+
+.xl {
+  max-width: 1280px;
+}
+
+.full {
+  max-width: 100%;
+}

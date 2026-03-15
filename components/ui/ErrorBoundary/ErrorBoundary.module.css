@@ -1,0 +1,143 @@
+/**
+ * ErrorBoundary Styles
+ *
+ * Estilos para la UI de fallback del ErrorBoundary.
+ * Centrado, con icono de advertencia y botón de reintento.
+ *
+ * Requisitos: 16.1, 16.4, 16.5
+ */
+
+/* ─── Contenedor principal ──────────────────────────────────────────────── */
+
+.errorBoundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-10, 2.5rem) var(--spacing-6, 1.5rem);
+  min-height: 200px;
+  color: var(--color-error-text);
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-lg);
+  gap: var(--spacing-4);
+}
+
+/* ─── Icono ─────────────────────────────────────────────────────────────── */
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-error-icon);
+  opacity: 0.8;
+}
+
+/* ─── Contenido ─────────────────────────────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  max-width: 480px;
+}
+
+/* ─── Título ────────────────────────────────────────────────────────────── */
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-error-text);
+}
+
+/* ─── Descripción ───────────────────────────────────────────────────────── */
+
+.description {
+  margin: 0;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-error-text);
+  opacity: 0.85;
+}
+
+/* ─── Detalles técnicos (solo desarrollo) ───────────────────────────────── */
+
+.details {
+  width: 100%;
+  text-align: left;
+  margin-top: var(--spacing-2);
+}
+
+.detailsSummary {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  color: var(--color-error-text);
+  opacity: 0.75;
+  user-select: none;
+}
+
+.detailsSummary:hover {
+  opacity: 1;
+}
+
+.errorStack {
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-3);
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  color: var(--color-error-text);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* ─── Botón de reintento ────────────────────────────────────────────────── */
+
+.retryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-6);
+  background-color: var(--color-error-border);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-in-out),
+    border-color var(--duration-fast) var(--easing-in-out),
+    transform var(--duration-fast) var(--easing-in-out);
+}
+
+.retryButton:hover {
+  background-color: var(--color-error-text);
+  border-color: var(--color-error-text);
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.retryButton:active {
+  transform: scale(0.98);
+}
+
+/* Accesibilidad: respetar preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .retryButton {
+    transition: none;
+  }
+}

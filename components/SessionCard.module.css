@@ -1,0 +1,210 @@
+/**
+ * SessionCard — CSS Module
+ * Migrado desde Tailwind CSS. Requisitos: 7.4, 13.2, 13.4, 13.5
+ */
+
+.card {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+}
+
+/* ── Card header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-4);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.phoneNumber {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.sessionId {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* ── Delete button ── */
+.deleteButton {
+  color: var(--color-error-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--duration-fast) var(--easing-in-out),
+              color var(--duration-fast) var(--easing-in-out);
+}
+
+.deleteButton:hover:not(:disabled) {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-700, #b91c1c);
+}
+
+.deleteButton:active:not(:disabled) {
+  background-color: var(--color-error-border);
+  color: var(--color-text-inverse);
+  transform: scale(0.97);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ── QR code ── */
+.qrWrapper {
+  margin-top: var(--spacing-4);
+  display: flex;
+  justify-content: center;
+}
+
+.qrBox {
+  background-color: var(--color-bg-subtle);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+}
+
+.qrImage {
+  width: 16rem;
+  height: 16rem;
+}
+
+.qrCaption {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin-top: var(--spacing-2);
+}
+
+/* ── Connected notice ── */
+.connectedNotice {
+  margin-top: var(--spacing-4);
+  background-color: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+}
+
+.connectedText {
+  font-size: var(--font-size-sm);
+  color: var(--color-success-text);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.connectedIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* ── Footer ── */
+.footer {
+  margin-top: var(--spacing-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* ── Modal footer buttons ── */
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-6);
+}
+
+.cancelButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+}
+
+.cancelButton:active:not(:disabled) {
+  background-color: var(--color-bg-muted);
+  transform: scale(0.98);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirmDeleteButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: none;
+  background-color: var(--color-error);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.confirmDeleteButton:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.confirmDeleteButton:active:not(:disabled) {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.confirmDeleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Accesibilidad: respetar preferencia de movimiento reducido ─────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .deleteButton,
+  .cancelButton,
+  .confirmDeleteButton {
+    transition: none;
+  }
+
+  .deleteButton:active:not(:disabled),
+  .cancelButton:active:not(:disabled),
+  .confirmDeleteButton:active:not(:disabled) {
+    transform: none;
+  }
+}
