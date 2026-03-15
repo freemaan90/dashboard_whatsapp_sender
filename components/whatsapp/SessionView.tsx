@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createWhatsappSession } from '@/app/actions/createSessionById';
 import { deleteSessionById } from '@/app/actions/deleteSessionById';
 import { getSessions } from '@/app/actions/getSessions';
@@ -16,19 +16,86 @@ export default function SessionView() {
   const [pollingSessionId, setPollingSessionId] = useState<string | null>(null);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [activeSession, setActiveSession] = useState<any>(null);
+  const [pendingSession, setPendingSession] = useState<any>(null); // sesión en DB pero no lista aún
   const [loadingSessions, setLoadingSessions] = useState(true);
 
-  // Cargar sesiones al montar
-  useEffect(() => {
-    loadSessions();
+  const loadSessions = useCallback(async () => {
+    try {
+      const sessions = await getSessions();
+      const active = sessions.find((s: any) => s.isReady);
+      const pending = !active ? sessions.find((s: any) => s.isActive && !s.isReady) : null;
+      setActiveSession(active || null);
+      setPendingSession(pending || null);
+    } catch (err) {
+      console.error('Error loading sessions:', err);
+    } finally {
+      setLoadingSessions(false);
+    }
   }, []);
 
-  // Polling para obtener el QR
+  // Cargar sesiones al montar — reintenta si viene vacío (microservicio puede estar inicializando)
+  useEffect(() => {
+    let cancelled = false;
+
+    const tryLoad = async (attemptsLeft: number) => {
+      if (cancelled) return;
+      await loadSessions();
+      if (cancelled || attemptsLeft <= 0) return;
+      // Si no hay sesión activa, reintentar en 2s (el microservicio puede estar arrancando)
+      setTimeout(() => tryLoad(attemptsLeft - 1), 2000);
+    };
+
+    tryLoad(2); // hasta 3 intentos en total
+    return () => { cancelled = true; };
+  }, [loadSessions]);
+
+  // Polling para sesión pendiente (existe en DB pero microservicio aún inicializando)
+  useEffect(() => {
+    if (!pendingSession || pollingSessionId) return;
+
+    let attempts = 0;
+    const MAX_ATTEMPTS = 240; // 2 minutos (240 * 500ms)
+
+    const interval = setInterval(async () => {
+      attempts++;
+      try {
+        const response = await api.get(`/whatsapp-sender/status/${pendingSession.sessionId}`);
+
+        if (response.data?.isReady) {
+          clearInterval(interval);
+          setPendingSession(null);
+          loadSessions();
+          return;
+        }
+
+        if (response.data?.qrBase64) {
+          clearInterval(interval);
+          setPendingSession(null);
+          setCurrentSessionId(pendingSession.sessionId);
+          setPollingSessionId(pendingSession.sessionId);
+          setLoading(true);
+          setQrCode(response.data.qrBase64);
+          return;
+        }
+      } catch {
+        // silencioso
+      }
+
+      if (attempts >= MAX_ATTEMPTS) {
+        clearInterval(interval);
+        setPendingSession(null);
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [pendingSession, pollingSessionId, loadSessions]);
+
+  // Polling para obtener el QR (sesión nueva)
   useEffect(() => {
     if (!pollingSessionId) return;
 
     let attempts = 0;
-    const MAX_ATTEMPTS = 40;
+    const MAX_ATTEMPTS = 240; // 2 minutos (240 * 500ms)
 
     const interval = setInterval(async () => {
       attempts++;
@@ -36,10 +103,11 @@ export default function SessionView() {
       try {
         const response = await api.get(`/whatsapp-sender/status/${pollingSessionId}`);
         
-        if (response.data.qrBase64) {
+        console.log(`[POLLING] attempt=${attempts} sessionId=${pollingSessionId} isReady=${response.data?.isReady}`);
+
+        if (response.data.qrBase64 && !qrCode) {
           setQrCode(response.data.qrBase64);
-          setPollingSessionId(null);
-          clearInterval(interval);
+          // NO detener el polling — seguir verificando hasta que isReady sea true
         }
         
         // Verificar si ya está autenticado
@@ -47,12 +115,24 @@ export default function SessionView() {
           setQrCode(null);
           setPollingSessionId(null);
           setLoading(false);
+          await new Promise((r) => setTimeout(r, 500));
           loadSessions();
           clearInterval(interval);
         }
         
         if (attempts >= MAX_ATTEMPTS) {
-          setError('El QR no estuvo disponible a tiempo');
+          try {
+            const finalCheck = await api.get(`/whatsapp-sender/status/${pollingSessionId}`);
+            if (finalCheck.data.isReady) {
+              setQrCode(null);
+              setPollingSessionId(null);
+              setLoading(false);
+              loadSessions();
+              clearInterval(interval);
+              return;
+            }
+          } catch {}
+          setError('Tiempo de espera agotado. Intentá escanear el QR de nuevo.');
           setPollingSessionId(null);
           setLoading(false);
           clearInterval(interval);
@@ -63,19 +143,7 @@ export default function SessionView() {
     }, 500);
 
     return () => clearInterval(interval);
-  }, [pollingSessionId]);
-
-  const loadSessions = async () => {
-    try {
-      const sessions = await getSessions();
-      const active = sessions.find((s: any) => s.isReady);
-      setActiveSession(active || null);
-    } catch (err) {
-      console.error('Error loading sessions:', err);
-    } finally {
-      setLoadingSessions(false);
-    }
-  };
+  }, [pollingSessionId, loadSessions]);
 
   const handleCreateSession = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,6 +207,23 @@ export default function SessionView() {
         <div className={styles.loadingContent}>
           <Spinner size="lg" label="Cargando sesiones..." />
           <p className={styles.loadingText}>Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Sesión en DB pero microservicio aún inicializando
+  if (pendingSession && !loading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.inner}>
+          <div className={styles.spinnerSection}>
+            <Spinner size="lg" label="Recuperando sesión..." />
+            <p className={styles.spinnerLabel}>Recuperando sesión activa...</p>
+            <p className={styles.spinnerHint}>
+              Se detectó una sesión para <strong>{pendingSession.sessionId}</strong>. Conectando con WhatsApp...
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -221,12 +306,23 @@ export default function SessionView() {
           </button>
         </form>
 
+        <div className={styles.refreshSection}>
+          <p className={styles.refreshHint}>¿Ya tenés una sesión activa en tu celular?</p>
+          <button
+            type="button"
+            onClick={() => { setLoadingSessions(true); loadSessions(); }}
+            className={styles.refreshButton}
+          >
+            Verificar estado
+          </button>
+        </div>
+
         {loading && !qrCode && (
           <div className={styles.section}>
             <div className={styles.spinnerSection}>
-              <Spinner size="lg" label="Generando código QR..." />
-              <p className={styles.spinnerLabel}>Generando código QR...</p>
-              <p className={styles.spinnerHint}>Esto puede tomar unos segundos</p>
+              <Spinner size="lg" label="Conectando sesión..." />
+              <p className={styles.spinnerLabel}>Conectando sesión...</p>
+              <p className={styles.spinnerHint}>Si ya tenías una sesión activa en tu celular, esto puede tardar unos segundos</p>
               <button
                 onClick={handleCancelSession}
                 className={styles.cancelLink}

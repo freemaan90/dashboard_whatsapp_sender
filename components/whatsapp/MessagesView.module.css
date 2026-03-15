@@ -201,3 +201,17 @@
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--spacing-1);
 }
+
+/* ── Warning notice (no active session) ── */
+.warningNotice {
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--color-warning-bg, #fffbeb);
+  border: 1px solid var(--color-warning-border, #fcd34d);
+  border-radius: var(--radius-md);
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  font-size: var(--font-size-sm);
+  color: var(--color-warning-text, #92400e);
+}

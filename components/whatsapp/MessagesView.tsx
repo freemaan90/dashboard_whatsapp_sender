@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getSessions } from '@/app/actions/getSessions';
+import { sendMessage } from '@/app/actions/sendMessage';
 import Spinner from '@/components/ui/Spinner/Spinner';
 import styles from './MessagesView.module.css';
 
@@ -10,6 +12,18 @@ export default function MessagesView() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [loadingSessions, setLoadingSessions] = useState(true);
+
+  useEffect(() => {
+    getSessions()
+      .then((sessions) => {
+        const active = sessions.find((s: any) => s.isReady);
+        setActiveSessionId(active?.sessionId ?? null);
+      })
+      .catch(() => setActiveSessionId(null))
+      .finally(() => setLoadingSessions(false));
+  }, []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,10 +35,14 @@ export default function MessagesView() {
       return;
     }
 
+    if (!activeSessionId) {
+      setError('No tienes una sesión activa');
+      return;
+    }
+
     setLoading(true);
     try {
-      // TODO: Implementar envío de mensaje
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await sendMessage(activeSessionId, phoneNumber.trim(), message.trim());
       setSuccess('Mensaje enviado correctamente');
       setPhoneNumber('');
       setMessage('');
@@ -35,11 +53,32 @@ export default function MessagesView() {
     }
   };
 
+  const formDisabled = loading || !activeSessionId;
+
+  if (loadingSessions) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.inner}>
+          <Spinner size="lg" label="Cargando..." />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.inner}>
         <h2 className={styles.pageTitle}>Enviar Mensaje</h2>
-        
+
+        {!activeSessionId && (
+          <div className={styles.warningNotice} role="alert">
+            <svg className={styles.infoIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p>No tienes una sesión activa. Ve a la sección <strong>Sesión</strong> para conectar tu cuenta.</p>
+          </div>
+        )}
+
         <form onSubmit={handleSendMessage} className={styles.form}>
           <div className={styles.field}>
             <label htmlFor="phoneNumber" className={styles.label}>
@@ -52,7 +91,7 @@ export default function MessagesView() {
               onChange={(e) => setPhoneNumber(e.target.value)}
               placeholder="549111234567"
               className={styles.input}
-              disabled={loading}
+              disabled={formDisabled}
             />
             <p className={styles.hint}>
               Formato: código de país + código de área + número (sin espacios ni guiones)
@@ -70,7 +109,7 @@ export default function MessagesView() {
               placeholder="Escribe tu mensaje aquí..."
               rows={6}
               className={styles.textarea}
-              disabled={loading}
+              disabled={formDisabled}
             />
           </div>
 
@@ -88,7 +127,7 @@ export default function MessagesView() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={formDisabled}
             className={styles.submitButton}
           >
             {loading ? (
@@ -106,16 +145,6 @@ export default function MessagesView() {
             )}
           </button>
         </form>
-
-        <div className={styles.infoNotice}>
-          <svg className={styles.infoIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div className={styles.infoContent}>
-            <p className={styles.infoTitle}>Nota importante</p>
-            <p>Asegúrate de tener una sesión activa antes de enviar mensajes. Ve a la sección &quot;Sesión&quot; para conectar tu cuenta.</p>
-          </div>
-        </div>
       </div>
     </div>
   );
