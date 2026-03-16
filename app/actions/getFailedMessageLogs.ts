@@ -10,6 +10,7 @@ export interface FailedMessageLog {
   messageText: string;
   failureReason: string;
   failedAt: string;
+  channelType?: 'OFFICIAL' | 'UNOFFICIAL';
 }
 
 export async function getFailedMessageLogs(limit = 50): Promise<FailedMessageLog[]> {

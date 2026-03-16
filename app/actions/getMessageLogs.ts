@@ -9,6 +9,8 @@ export interface MessageLog {
   phone: string;
   messageText: string;
   sentAt: string;
+  channelType?: 'OFFICIAL' | 'UNOFFICIAL';
+  wamid?: string;
 }
 
 export async function getMessageLogs(limit = 50): Promise<MessageLog[]> {

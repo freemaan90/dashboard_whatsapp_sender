@@ -9,14 +9,18 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Icon } from '@/components/ui/Icon';
 import { useToast } from '@/components/ui/Toast/ToastContext';
+import OfficialSessionForm from '@/components/whatsapp/OfficialSessionForm';
 import styles from './SessionPanel.module.css';
 
 interface SessionPanelProps {
   onSessionCreated?: () => void;
 }
 
+type SessionTab = 'unofficial' | 'official';
+
 export default function SessionPanel({ onSessionCreated }: SessionPanelProps) {
   const { showToast } = useToast();
+  const [activeTab, setActiveTab] = useState<SessionTab>('unofficial');
   const [sessionId, setSessionId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -134,6 +138,32 @@ export default function SessionPanel({ onSessionCreated }: SessionPanelProps) {
     <div className={styles.panel}>
       <h2 className={styles.title}>Nueva Sesión</h2>
 
+      {/* Tabs */}
+      <div className={styles.tabs} role="tablist" aria-label="Tipo de sesión">
+        <button
+          role="tab"
+          aria-selected={activeTab === 'unofficial'}
+          className={`${styles.tab} ${activeTab === 'unofficial' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('unofficial')}
+          type="button"
+        >
+          No oficial
+        </button>
+        <button
+          role="tab"
+          aria-selected={activeTab === 'official'}
+          className={`${styles.tab} ${activeTab === 'official' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('official')}
+          type="button"
+        >
+          Oficial (Meta)
+        </button>
+      </div>
+
+      {activeTab === 'official' ? (
+        <OfficialSessionForm onCreated={onSessionCreated} />
+      ) : (
+        <>
       <p className={styles.description}>
         Conecta tu cuenta de WhatsApp ingresando tu número de teléfono. Se generará un código QR que deberás escanear con tu dispositivo.
       </p>
@@ -236,6 +266,8 @@ export default function SessionPanel({ onSessionCreated }: SessionPanelProps) {
             </li>
           </ol>
         </div>
+      )}
+        </>
       )}
     </div>
   );

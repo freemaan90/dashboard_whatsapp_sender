@@ -41,12 +41,12 @@ const SessionCard = memo(function SessionCard({ session, onUpdate }: SessionCard
   }, [session.sessionId]);
 
   useEffect(() => {
-    if (session.isActive && !session.isReady) {
+    if (session.channelType !== 'OFFICIAL' && session.isActive && !session.isReady) {
       checkStatus();
       const interval = setInterval(checkStatus, 2000);
       return () => clearInterval(interval);
     }
-  }, [session.isActive, session.isReady, checkStatus]);
+  }, [session.channelType, session.isActive, session.isReady, checkStatus]);
 
   const handleDelete = useCallback(async () => {
     setLoading(true);
@@ -81,15 +81,22 @@ const SessionCard = memo(function SessionCard({ session, onUpdate }: SessionCard
     ? 'Esperando QR'
     : 'Inactivo';
 
+  const isOfficial = session.channelType === 'OFFICIAL';
+
   return (
     <>
     <div className={styles.card}>
       <div className={styles.header}>
         <div className={styles.info}>
           <h3 className={styles.phoneNumber}>{session.phoneNumber}</h3>
-          <p className={styles.sessionId}>ID: {session.sessionId}</p>
+          <p className={styles.sessionId}>
+            {isOfficial ? `ID: ${session.phoneNumberId}` : `ID: ${session.sessionId}`}
+          </p>
         </div>
         <div className={styles.actions}>
+          <Badge variant={isOfficial ? 'info' : 'default'} size="sm">
+            {isOfficial ? 'Oficial' : 'No oficial'}
+          </Badge>
           <Badge variant={badgeVariant} size="sm">
             {badgeLabel}
           </Badge>

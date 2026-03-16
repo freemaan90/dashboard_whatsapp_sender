@@ -93,9 +93,14 @@ export default function MessageLogsView() {
                 <li key={msg.id} className={styles.logItem}>
                   <div className={styles.logHeader}>
                     <span className={styles.phone}>{msg.phone}</span>
-                    <time className={styles.date} dateTime={msg.sentAt}>
-                      {formatDate(msg.sentAt)}
-                    </time>
+                    <div className={styles.logMeta}>
+                      <span className={`${styles.channelBadge} ${msg.channelType === 'OFFICIAL' ? styles['channelBadge--official'] : styles['channelBadge--unofficial']}`}>
+                        {msg.channelType === 'OFFICIAL' ? 'Oficial' : 'No oficial'}
+                      </span>
+                      <time className={styles.date} dateTime={msg.sentAt}>
+                        {formatDate(msg.sentAt)}
+                      </time>
+                    </div>
                   </div>
                   <p className={styles.messageText}>{msg.messageText}</p>
                 </li>
@@ -122,9 +127,14 @@ export default function MessageLogsView() {
                 <li key={msg.id} className={`${styles.logItem} ${styles['logItem--failed']}`}>
                   <div className={styles.logHeader}>
                     <span className={styles.phone}>{msg.phone}</span>
-                    <time className={styles.date} dateTime={msg.failedAt}>
-                      {formatDate(msg.failedAt)}
-                    </time>
+                    <div className={styles.logMeta}>
+                      <span className={`${styles.channelBadge} ${msg.channelType === 'OFFICIAL' ? styles['channelBadge--official'] : styles['channelBadge--unofficial']}`}>
+                        {msg.channelType === 'OFFICIAL' ? 'Oficial' : 'No oficial'}
+                      </span>
+                      <time className={styles.date} dateTime={msg.failedAt}>
+                        {formatDate(msg.failedAt)}
+                      </time>
+                    </div>
                   </div>
                   <p className={styles.messageText}>{msg.messageText}</p>
                   <p className={styles.failureReason}>

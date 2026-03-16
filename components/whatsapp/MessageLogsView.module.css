@@ -179,3 +179,35 @@
     transition: none;
   }
 }
+
+/* ── Log header with meta info ── */
+.logMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-shrink: 0;
+}
+
+/* ── Channel badge ── */
+.channelBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--spacing-2);
+  height: 1.25rem;
+  border-radius: var(--radius-full, 9999px);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.channelBadge--official {
+  background-color: var(--color-info-bg, #eff6ff);
+  color: var(--color-info-text, #1d4ed8);
+  border: 1px solid var(--color-info-border, #bfdbfe);
+}
+
+.channelBadge--unofficial {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-default);
+}
