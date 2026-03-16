@@ -6,6 +6,7 @@ import { sendMessage } from '@/app/actions/sendMessage';
 import Spinner from '@/components/ui/Spinner/Spinner';
 import TemplatesPanel from '@/components/whatsapp/TemplatesPanel/TemplatesPanel';
 import { BulkUpload } from '@/components/whatsapp/BulkUpload/BulkUpload';
+import { CSVBulkUpload } from '@/components/whatsapp/CSVBulkUpload/CSVBulkUpload';
 import styles from './MessagesView.module.css';
 
 export default function MessagesView() {
@@ -20,6 +21,9 @@ export default function MessagesView() {
   const [bulkCanSend, setBulkCanSend] = useState(false);
   const [bulkSending, setBulkSending] = useState(false);
   const bulkSendFnRef = useRef<(() => void) | null>(null);
+  const [csvBulkCanSend, setCsvBulkCanSend] = useState(false);
+  const [csvBulkSending, setCsvBulkSending] = useState(false);
+  const csvBulkSendFnRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     getSessions()
@@ -127,16 +131,30 @@ export default function MessagesView() {
               </p>
             </div>
           ) : (
-            <BulkUpload
-              sessionId={activeSessionId}
-              message={message}
-              onPhonesLoaded={() => {}}
-              onStatusChange={({ status, hasValid }) => {
-                setBulkCanSend(hasValid && status === 'idle');
-                setBulkSending(status === 'sending');
-              }}
-              registerSend={(fn) => { bulkSendFnRef.current = fn; }}
-            />
+            <>
+              <BulkUpload
+                sessionId={activeSessionId}
+                message={message}
+                onPhonesLoaded={() => {}}
+                onStatusChange={({ status, hasValid }) => {
+                  setBulkCanSend(hasValid && status === 'idle');
+                  setBulkSending(status === 'sending');
+                }}
+                registerSend={(fn) => { bulkSendFnRef.current = fn; }}
+                disabled={csvBulkSending}
+              />
+              <CSVBulkUpload
+                sessionId={activeSessionId}
+                message={message}
+                onPhonesLoaded={() => {}}
+                onStatusChange={({ status, hasValid }) => {
+                  setCsvBulkCanSend(hasValid && status === 'idle');
+                  setCsvBulkSending(status === 'sending');
+                }}
+                registerSend={(fn) => { csvBulkSendFnRef.current = fn; }}
+                disabled={bulkSending}
+              />
+            </>
           )}
 
           <div className={styles.field}>
@@ -187,26 +205,48 @@ export default function MessagesView() {
               )}
             </button>
           ) : (
-            <button
-              type="button"
-              disabled={!bulkCanSend || bulkSending || !message.trim() || !activeSessionId}
-              className={styles.submitButton}
-              onClick={() => bulkSendFnRef.current?.()}
-            >
-              {bulkSending ? (
-                <>
-                  <Spinner size="sm" label="Enviando mensajes..." />
-                  Enviando...
-                </>
-              ) : (
-                <>
-                  <svg className={styles.buttonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                  Comenzar
-                </>
-              )}
-            </button>
+            <>
+              <button
+                type="button"
+                disabled={!bulkCanSend || bulkSending || csvBulkSending || !message.trim() || !activeSessionId}
+                className={styles.submitButton}
+                onClick={() => bulkSendFnRef.current?.()}
+              >
+                {bulkSending ? (
+                  <>
+                    <Spinner size="sm" label="Enviando mensajes..." />
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <svg className={styles.buttonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    Comenzar (Excel)
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                disabled={!csvBulkCanSend || csvBulkSending || bulkSending || !message.trim() || !activeSessionId}
+                className={styles.submitButton}
+                onClick={() => csvBulkSendFnRef.current?.()}
+              >
+                {csvBulkSending ? (
+                  <>
+                    <Spinner size="sm" label="Enviando mensajes..." />
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <svg className={styles.buttonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    Comenzar (CSV)
+                  </>
+                )}
+              </button>
+            </>
           )}        </form>
       </div>
     </div>
