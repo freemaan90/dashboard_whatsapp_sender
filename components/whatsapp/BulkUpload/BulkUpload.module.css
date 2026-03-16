@@ -1,0 +1,177 @@
+/* BulkUpload — CSS Module */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+/* ── Drop zone ── */
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2, 0.5rem);
+  padding: var(--spacing-4, 1rem);
+  border: 2px dashed var(--color-input-border, #d1d5db);
+  border-radius: var(--radius-md, 0.5rem);
+  background-color: var(--color-input-bg, #fff);
+  color: var(--color-text-secondary, #6b7280);
+  font-size: var(--font-size-sm, 0.875rem);
+  cursor: pointer;
+  transition: border-color var(--duration-fast, 150ms) ease-in-out,
+              background-color var(--duration-fast, 150ms) ease-in-out;
+  text-align: center;
+}
+
+.dropZone:hover {
+  border-color: var(--color-input-border-focus, #2563eb);
+  background-color: var(--color-info-bg, #eff6ff);
+}
+
+.dropZoneActive {
+  border-color: var(--color-input-border-focus, #2563eb);
+  background-color: var(--color-info-bg, #eff6ff);
+}
+
+/* ── File icon ── */
+.fileIcon {
+  color: var(--color-text-secondary, #6b7280);
+}
+
+/* ── File name ── */
+.fileName {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold, 600);
+  word-break: break-all;
+}
+
+/* ── Stats row ── */
+.stats {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-3, 0.75rem);
+  align-items: center;
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.validCount {
+  color: var(--color-success-text, #15803d);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.invalidCount {
+  color: var(--color-error-text, #b91c1c);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+/* ── Invalid list ── */
+.invalidList {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  border: 1px solid var(--color-error-border, #fca5a5);
+  border-radius: var(--radius-md, 0.375rem);
+  background-color: var(--color-error-bg, #fef2f2);
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-error-text, #b91c1c);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+  max-height: 8rem;
+  overflow-y: auto;
+}
+
+/* ── Error text ── */
+.errorText {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-error-text, #b91c1c);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  margin: 0;
+}
+
+/* ── Send button ── */
+.sendButton {
+  align-self: flex-start;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
+  background-color: var(--color-primary, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md, 0.375rem);
+  font-size: var(--font-size-sm, 0.875rem);
+  font-weight: var(--font-weight-bold, 600);
+  cursor: pointer;
+  transition: background-color var(--duration-fast, 150ms) ease-in-out;
+}
+
+.sendButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover, #1d4ed8);
+}
+
+.sendButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Progress text ── */
+.progress {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-text-secondary, #6b7280);
+  margin: 0;
+}
+
+/* ── Summary block ── */
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2, 0.5rem);
+  padding: var(--spacing-3, 0.75rem);
+  border: 1px solid var(--color-success-border, #86efac);
+  border-radius: var(--radius-md, 0.375rem);
+  background-color: var(--color-success-bg, #f0fdf4);
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-success-text, #15803d);
+}
+
+/* ── Reset button ── */
+.resetButton {
+  align-self: flex-start;
+  padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
+  background-color: transparent;
+  color: var(--color-primary, #2563eb);
+  border: 1px solid var(--color-primary, #2563eb);
+  border-radius: var(--radius-md, 0.375rem);
+  font-size: var(--font-size-sm, 0.875rem);
+  cursor: pointer;
+  transition: background-color var(--duration-fast, 150ms) ease-in-out;
+}
+
+.resetButton:hover {
+  background-color: var(--color-info-bg, #eff6ff);
+}
+
+/* ── Section header ── */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.sectionTitle {
+  font-weight: var(--font-weight-bold, 600);
+  font-size: var(--font-size-base, 1rem);
+  color: var(--color-text-primary, #111827);
+}
+
+.sectionHint {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-text-tertiary, #9ca3af);
+}

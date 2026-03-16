@@ -215,3 +215,44 @@
   font-size: var(--font-size-sm);
   color: var(--color-warning-text, #92400e);
 }
+
+/* ── Mode toggle (Manual / Desde Excel) ── */
+.modeToggle {
+  display: flex;
+  gap: var(--spacing-2);
+  border-bottom: 1px solid var(--color-input-border);
+  padding-bottom: var(--spacing-2);
+}
+
+.modeButton {
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-4);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-in-out),
+              color var(--duration-fast) var(--easing-in-out),
+              border-color var(--duration-fast) var(--easing-in-out);
+}
+
+.modeButton:hover:not(.modeButtonActive) {
+  background-color: var(--color-input-bg);
+  border-color: var(--color-input-border-hover);
+}
+
+.modeButtonActive {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-btn-primary-bg);
+}
+
+/* ── Divider between templates and send form ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-input-border, #e5e7eb);
+  margin-block: var(--spacing-6, 1.5rem);
+}

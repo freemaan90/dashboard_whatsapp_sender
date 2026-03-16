@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getSessions } from '@/app/actions/getSessions';
 import { sendMessage } from '@/app/actions/sendMessage';
 import Spinner from '@/components/ui/Spinner/Spinner';
+import TemplatesPanel from '@/components/whatsapp/TemplatesPanel/TemplatesPanel';
+import { BulkUpload } from '@/components/whatsapp/BulkUpload/BulkUpload';
 import styles from './MessagesView.module.css';
 
 export default function MessagesView() {
@@ -14,6 +16,10 @@ export default function MessagesView() {
   const [success, setSuccess] = useState('');
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [loadingSessions, setLoadingSessions] = useState(true);
+  const [inputMode, setInputMode] = useState<'manual' | 'bulk'>('manual');
+  const [bulkCanSend, setBulkCanSend] = useState(false);
+  const [bulkSending, setBulkSending] = useState(false);
+  const bulkSendFnRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     getSessions()
@@ -79,24 +85,59 @@ export default function MessagesView() {
           </div>
         )}
 
+        <TemplatesPanel onSelect={(content) => setMessage(content)} />
+
+        <hr className={styles.divider} />
+
         <form onSubmit={handleSendMessage} className={styles.form}>
-          <div className={styles.field}>
-            <label htmlFor="phoneNumber" className={styles.label}>
-              Número de Teléfono Destino
-            </label>
-            <input
-              type="text"
-              id="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="549111234567"
-              className={styles.input}
-              disabled={formDisabled}
-            />
-            <p className={styles.hint}>
-              Formato: código de país + código de área + número (sin espacios ni guiones)
-            </p>
+          {/* Toggle manual / Excel */}
+          <div className={styles.modeToggle}>
+            <button
+              type="button"
+              className={`${styles.modeButton} ${inputMode === 'manual' ? styles.modeButtonActive : ''}`}
+              onClick={() => setInputMode('manual')}
+            >
+              Manual
+            </button>
+            <button
+              type="button"
+              className={`${styles.modeButton} ${inputMode === 'bulk' ? styles.modeButtonActive : ''}`}
+              onClick={() => setInputMode('bulk')}
+            >
+              Envío masivo
+            </button>
           </div>
+
+          {inputMode === 'manual' ? (
+            <div className={styles.field}>
+              <label htmlFor="phoneNumber" className={styles.label}>
+                Número de Teléfono Destino
+              </label>
+              <input
+                type="text"
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="549111234567"
+                className={styles.input}
+                disabled={formDisabled}
+              />
+              <p className={styles.hint}>
+                Formato: código de país + código de área + número (sin espacios ni guiones)
+              </p>
+            </div>
+          ) : (
+            <BulkUpload
+              sessionId={activeSessionId}
+              message={message}
+              onPhonesLoaded={() => {}}
+              onStatusChange={({ status, hasValid }) => {
+                setBulkCanSend(hasValid && status === 'idle');
+                setBulkSending(status === 'sending');
+              }}
+              registerSend={(fn) => { bulkSendFnRef.current = fn; }}
+            />
+          )}
 
           <div className={styles.field}>
             <label htmlFor="message" className={styles.label}>
@@ -125,26 +166,48 @@ export default function MessagesView() {
             </div>
           )}
 
-          <button
-            type="submit"
-            disabled={formDisabled}
-            className={styles.submitButton}
-          >
-            {loading ? (
-              <>
-                <Spinner size="sm" label="Enviando mensaje..." />
-                Enviando...
-              </>
-            ) : (
-              <>
-                <svg className={styles.buttonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-                Enviar Mensaje
-              </>
-            )}
-          </button>
-        </form>
+          {inputMode === 'manual' ? (
+            <button
+              type="submit"
+              disabled={formDisabled}
+              className={styles.submitButton}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" label="Enviando mensaje..." />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <svg className={styles.buttonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                  Enviar Mensaje
+                </>
+              )}
+            </button>
+          ) : (
+            <button
+              type="button"
+              disabled={!bulkCanSend || bulkSending || !message.trim() || !activeSessionId}
+              className={styles.submitButton}
+              onClick={() => bulkSendFnRef.current?.()}
+            >
+              {bulkSending ? (
+                <>
+                  <Spinner size="sm" label="Enviando mensajes..." />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <svg className={styles.buttonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                  Comenzar
+                </>
+              )}
+            </button>
+          )}        </form>
       </div>
     </div>
   );
