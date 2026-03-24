@@ -6,6 +6,7 @@ import { deleteSessionById } from '@/app/actions/deleteSessionById';
 import { getSessions } from '@/app/actions/getSessions';
 import api from '@/lib/api';
 import Spinner from '@/components/ui/Spinner/Spinner';
+import { MetaOnboardingFlow } from '@/components/whatsapp/MetaOnboarding';
 import styles from './SessionView.module.css';
 
 export default function SessionView() {
@@ -229,8 +230,21 @@ export default function SessionView() {
     );
   }
 
-  // Si hay sesión activa
-  if (activeSession && !loading) {
+  const isOfficialSession = activeSession?.channelType === 'OFFICIAL';
+
+  // Sesión OFFICIAL activa — mostrar solo MetaOnboardingFlow
+  if (activeSession && !loading && isOfficialSession) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.inner}>
+          <MetaOnboardingFlow onCompleted={() => { setLoadingSessions(true); loadSessions(); }} />
+        </div>
+      </div>
+    );
+  }
+
+  // Sesión UNOFFICIAL activa — mostrar info de sesión + aviso + MetaOnboardingFlow
+  if (activeSession && !loading && !isOfficialSession) {
     return (
       <div className={styles.page}>
         <div className={styles.inner}>
@@ -261,6 +275,12 @@ export default function SessionView() {
           <button onClick={handleCloseSession} className={styles.closeButton}>
             Cerrar Sesión
           </button>
+
+          <div className={styles.divider} aria-hidden="true">
+            <span className={styles.dividerText}>o conectá con Meta</span>
+          </div>
+
+          <MetaOnboardingFlow onCompleted={() => { setLoadingSessions(true); loadSessions(); }} />
         </div>
       </div>
     );
@@ -316,6 +336,12 @@ export default function SessionView() {
             Verificar estado
           </button>
         </div>
+
+        <div className={styles.divider} aria-hidden="true">
+          <span className={styles.dividerText}>o conectá con Meta</span>
+        </div>
+
+        <MetaOnboardingFlow onCompleted={() => { setLoadingSessions(true); loadSessions(); }} />
 
         {loading && !qrCode && (
           <div className={styles.section}>
